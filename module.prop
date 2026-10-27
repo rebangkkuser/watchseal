@@ -1,0 +1,6 @@
+id=watchseal
+name=Watchseal
+version=0.1.0-dev
+versionCode=1
+author=Watchseal Team
+description=Native Android process event monitor with persistent logs, status checks, and log export. Android 7.0+, AArch64.
