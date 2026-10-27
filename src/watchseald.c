@@ -182,15 +182,22 @@ static int scan(struct plist *out)
 {
     DIR *d = opendir("/proc");
     struct dirent *e;
+    int scan_error = 0;
 
     if (!d)
         return -1;
     out->n = 0;
-    while ((e = readdir(d)) != NULL) {
+    for (;;) {
         struct proc p;
         char *end;
         long pid;
 
+        errno = 0;
+        e = readdir(d);
+        if (!e) {
+            scan_error = errno;
+            break;
+        }
         if (!isdigit((unsigned char)e->d_name[0]))
             continue;
         pid = strtol(e->d_name, &end, 10);
@@ -200,10 +207,17 @@ static int scan(struct plist *out)
             continue; /* vanished while scanning */
         if (is_kernel_thread(&p))
             continue;
-        if (plist_add(out, &p) < 0)
+        if (plist_add(out, &p) < 0) {
+            scan_error = errno ? errno : ENOMEM;
             break;
+        }
     }
     closedir(d);
+    if (scan_error) {
+        out->n = 0;
+        errno = scan_error;
+        return -1;
+    }
     if (out->n)
         qsort(out->v, out->n, sizeof *out->v, cmp_pid);
     return 0;
