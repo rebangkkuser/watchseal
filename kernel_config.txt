@@ -1,0 +1,7 @@
+# Recommended watchseal kernel configuation file before compiling
+# CONFIG_KSU is not set (replace to CONFIG_KSU=y if you are compilling with KernelSU)
+CONFIG_PRINTK=y
+CONFIG_FANOTIFY=y
+# CONFIG_FANOTIFY_ACCESS_PERMISSIONS is not set (replace to CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y if you write for example an antivirus on C with fanotify..
+# file permission access.
+CONFIG_INOTIFY_USER=y
