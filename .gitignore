@@ -1,4 +1,5 @@
 watchseald
 watchsealctl
+magisk/*
+.codex/*
 .vscode/*
-
