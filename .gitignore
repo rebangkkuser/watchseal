@@ -3,4 +3,3 @@ watchsealctl
 magisk/*
 .codex/*
 .vscode/*
-/target
